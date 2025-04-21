@@ -6,11 +6,11 @@ pipeline {
     IMAGE_NAME = 'blog-api'
     IMAGE_TAG = "${BUILD_NUMBER}"
     // KUBE_CONFIG = credentials('kubeconfig') // Jenkins credential ID
-    DB_HOST=localhost
-    DB_NAME=blog
-    DB_PASSWORD=
-    DB_PORT=3306
-    DB_USERNAME=root
+    DB_HOST='localhost'
+    DB_NAME='blog'
+    DB_PASSWORD=''
+    DB_PORT='3306'
+    DB_USERNAME='root'
   }
 
   stages {
