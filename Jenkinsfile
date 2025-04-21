@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent docker {
+    image 'maven:3.9.6-eclipse-temurin-21'
+    args '-v /var/run/docker.sock:/var/run/docker.sock'
+    label 'docker'
+  }
 
   environment {
     DOCKER_REGISTRY = 'phuphurithat'
