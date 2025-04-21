@@ -118,3 +118,6 @@ fabric.properties
 
 # Environment variables
 .env
+
+# Ignore target folder
+target/**
