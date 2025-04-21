@@ -16,7 +16,8 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/phu-phurithat/springboot-blog-rest-api.git'
+        git branch: 'main',
+        url: 'https://github.com/phu-phurithat/springboot-blog-rest-api.git'
       }
     }
 
