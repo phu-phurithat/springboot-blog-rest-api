@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'maven:3.9.6-eclipse-temurin-21'
+      image 'myjenkins-agent:latest'
       args '-v $HOME/.m2:/root/.m2' // Optional: cache dependencies
     }
   }
