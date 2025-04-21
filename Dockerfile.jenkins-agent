@@ -1,0 +1,9 @@
+FROM eclipse-temurin:21-jdk
+
+# Install Maven
+RUN apt-get update && \
+  apt-get install -y maven && \
+  apt-get clean
+
+# Verify installations
+RUN java -version && mvn -version

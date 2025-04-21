@@ -19,6 +19,11 @@ pipeline {
   }
 
   stages {
+    stage('Info') {
+      steps {
+        sh 'java -version && mvn -version'
+      }
+    }
     stage('Checkout') {
       steps {
         git branch: 'main',
