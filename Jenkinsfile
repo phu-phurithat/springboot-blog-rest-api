@@ -16,7 +16,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/your-org/post-service.git'
+        git 'https://github.com/phu-phurithat/springboot-blog-rest-api.git'
       }
     }
 
