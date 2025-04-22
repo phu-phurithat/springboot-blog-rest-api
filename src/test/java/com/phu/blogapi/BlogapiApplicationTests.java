@@ -6,8 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class BlogapiApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void checkTest() {
+        // This is a test to check if the test framework is working
+        assert true;
+    }
 
 }
