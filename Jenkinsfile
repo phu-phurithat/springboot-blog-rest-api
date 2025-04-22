@@ -31,14 +31,12 @@ pipeline {
       }
     }
 
-    stage('Docker Login') {
+        stage('Build') {
       steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh """
-            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            echo "Docker login successful"
-          """
-        }
+        sh """
+          mvn clean package -DskipTests
+          echo "Build completed successfully"
+        """
       }
     }
 
@@ -51,12 +49,14 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Docker Login') {
       steps {
-        sh """
-          mvn clean package -DskipTests
-          echo "Build completed successfully"
-        """
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+          sh """
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            echo "Docker login successful"
+          """
+        }
       }
     }
 
