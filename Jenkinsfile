@@ -1,8 +1,8 @@
 pipeline {
   agent {
     docker {
-      image 'maven:3.8.6-jdk-17-slim'
-      args '-u root:root'
+      image 'maven:3.8.3-openjdk-17'
+      args '-v /var/run/docker.sock:/var/run/docker.sock -v /usr/local/bin/docker:/usr/local/bin/docker'
     }
   }
 
@@ -24,53 +24,53 @@ pipeline {
         sh 'java -version && mvn -version'
       }
     }
-    // stage('Checkout') {
-    //   steps {
-    //     git branch: 'main',
-    //     url: 'https://github.com/phu-phurithat/springboot-blog-rest-api.git'
-    //   }
-    // }
+    stage('Checkout') {
+      steps {
+        git branch: 'main',
+        url: 'https://github.com/phu-phurithat/springboot-blog-rest-api.git'
+      }
+    }
 
-    // stage('Docker Login') {
-    //   steps {
-    //     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-    //       sh """
-    //         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-    //         echo "Docker login successful"
-    //       """
-    //     }
-    //   }
-    // }
+    stage('Docker Login') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+          sh """
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            echo "Docker login successful"
+          """
+        }
+      }
+    }
 
-    // stage('Test') {
-    //   steps {
-    //     sh """
-    //       mvn test
-    //       echo "Tests completed successfully"
-    //     """
-    //   }
-    // }
+    stage('Test') {
+      steps {
+        sh """
+          mvn test
+          echo "Tests completed successfully"
+        """
+      }
+    }
 
-    // stage('Build') {
-    //   steps {
-    //     sh """
-    //       mvn clean package -DskipTests
-    //       echo "Build completed successfully"
-    //     """
-    //   }
-    // }
+    stage('Build') {
+      steps {
+        sh """
+          mvn clean package -DskipTests
+          echo "Build completed successfully"
+        """
+      }
+    }
 
-    // stage('Build Docker Image') {
-    //   steps {
-    //     script {
-    //       sh """
-    //       docker build -t $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
-    //       echo "Docker image built successfully"
-    //       """
+    stage('Build Docker Image') {
+      steps {
+        script {
+          sh """
+          docker build -t $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
+          echo "Docker image built successfully"
+          """
           
-    //     }
-    //   }
-    // }
+        }
+      }
+    }
 
     // stage('Push to Registry') {
     //   steps {
