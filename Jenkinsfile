@@ -66,7 +66,7 @@ pipeline {
       steps {
         script {
           sh """
-          docker build -t $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
+          DOCKER_BUILDKIT=1 docker build -t $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG .
           echo "Docker image built successfully"
           """
           
