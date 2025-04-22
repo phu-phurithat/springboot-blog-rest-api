@@ -16,6 +16,8 @@ pipeline {
     DB_PASSWORD=''
     DB_PORT='3306'
     DB_USERNAME='root'
+
+    HOME = "${WORKSPACE}"
   }
 
   stages {
