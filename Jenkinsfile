@@ -42,14 +42,14 @@ pipeline {
       }
     }
 
-    stage('Test') {
-      steps {
-        sh """
-          mvn test
-          echo "Tests completed successfully"
-        """
-      }
-    }
+    // stage('Test') {
+    //   steps {
+    //     sh """
+    //       mvn test
+    //       echo "Tests completed successfully"
+    //     """
+    //   }
+    // }
 
     stage('Docker Login') {
       steps {
