@@ -1,12 +1,9 @@
 pipeline {
-  agent {
-    docker {
-      image 'maven:3.9.4-eclipse-temurin-21-alpine'
-      image 'docker:24.0.7-dind'
-      args '-v /var/run/docker.sock:/var/run/docker.sock -v /usr/local/bin/docker:/usr/local/bin/docker'
+  agent any
+  tools {
+        jdk 'jdk21'
+        maven 'maven3'
     }
-  }
-
   environment {
     DOCKER_REGISTRY = 'phuphurithat'
     IMAGE_NAME = 'blog-api'
@@ -53,6 +50,13 @@ pipeline {
     // }
 
     stage('Docker Login') {
+      agent {
+        docker {
+          image 'docker:24.0.7-dind'
+          args '-v /var/run/docker.sock:/var/run/docker.sock -v /usr/local/bin/docker:/usr/local/bin/docker'
+          reuseNode true
+        }
+      }
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
           sh """
@@ -75,16 +79,16 @@ pipeline {
       }
     }
 
-    // stage('Push to Registry') {
-    //   steps {
-    //     withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-    //       sh """
-    //         echo $PASS | docker login -u $USER --password-stdin
-    //         docker push $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
-    //       """
-    //     }
-    //   }
-    // }
+    stage('Push to Registry') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+          sh """
+            echo $PASS | docker login -u $USER --password-stdin
+            docker push $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+          """
+        }
+      }
+    }
 
     // stage('Deploy to Kubernetes') {
     //   steps {
